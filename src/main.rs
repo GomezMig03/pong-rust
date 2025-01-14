@@ -1,8 +1,10 @@
 use raylib::prelude::*;
 use raylib::consts::KeyboardKey::*;
 
-const SCREEN_WIDTH: f32 = 640.0;
-const SCREEN_HEIGHT: f32 = 480.0;
+const SCREEN_WIDTH: f32 = 1280.0;
+const SCREEN_HEIGHT: f32 = 720.0;
+const UP_LIMIT: f32 = 8.0;
+const DOWN_LIMIT: f32 = SCREEN_HEIGHT - 128.0;
 
 struct Player {
     position: Vector2,
@@ -20,13 +22,15 @@ fn main() {
     let mut player1 = Player {
         position: Vector2::new(32.0, 32.0),
         size: Vector2::new(SCREEN_WIDTH / 64.0, SCREEN_HEIGHT / 6.0),
-        speed: 3.5,
+        speed: SCREEN_HEIGHT / 150.0,
     };
 
     while !rl.window_should_close() {
         // UPDATE
-        if rl.is_key_down(KEY_UP) || rl.is_key_down(KEY_W) { player1.position.y -= player1.speed; }
-        if rl.is_key_down(KEY_DOWN) || rl.is_key_down(KEY_S) { player1.position.y += player1.speed; }
+        if (rl.is_key_down(KEY_UP) || rl.is_key_down(KEY_W)) && player1.position.y > UP_LIMIT { player1.position.y -= player1.speed; }
+        if (rl.is_key_down(KEY_DOWN) || rl.is_key_down(KEY_S)) && player1.position.y < DOWN_LIMIT { player1.position.y += player1.speed; }  
+
+        //println!("Player position Y: {}", player1.position.y);
 
         // DRAW
         let mut d = rl.begin_drawing(&thread);
