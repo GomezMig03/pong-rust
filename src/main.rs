@@ -57,6 +57,8 @@ fn main() {
     let mut points1: u32 = 0;
     let mut points2: u32 = 0;
 
+    let mut hit: u32 = 0;
+
     while !rl.window_should_close() {
         // UPDATE
         if (rl.is_key_down(KEY_UP) || rl.is_key_down(KEY_W)) && player1.position.y > UP_LIMIT { player1.position.y -= player1.speed; }
@@ -82,15 +84,21 @@ fn main() {
         if ball.position.x <= player1.position.x + (player1.size.x + ball.radius)
         && (ball.position.y <= player1.position.y + player1.size.y + 4.0 
         && ball.position.y >= player1.position.y)  { 
-            ball.speed.x *= -1.05;
-            ball.speed.y *= 1.05;
+            if hit == 0 {
+                ball.speed.x *= -1.05;
+                ball.speed.y *= 1.05;
+            }
+            hit += 1;
         }
 
         if ball.position.x >= player2.position.x - ball.radius
         && (ball.position.y <= player2.position.y + player2.size.y + 4.0 
         && ball.position.y >= player2.position.y){
-            ball.speed.x *= -1.05;
-            ball.speed.y *= 1.05;
+            if hit == 0 {
+                ball.speed.x *= -1.05;
+                ball.speed.y *= 1.05;
+            }
+            hit +=1;
         }
 
 
@@ -98,6 +106,9 @@ fn main() {
         || ball.position.y <= ball.radius {
             ball.speed.y *= -1.0;
         }
+
+        if hit != 0 {hit+=1;}
+        if hit >= 15 {hit=0;}
 
         //println!("Player position Y: {}", player1.position.y);
 
