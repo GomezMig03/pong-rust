@@ -59,6 +59,24 @@ fn main() {
         );
     }
 
+    fn ball_hit(ball: &mut Ball, player: &Player) {
+        if ball.position.y > player.position.y + (player.size.y / 2.0) {
+            if ball.speed.y < 0.0 {
+                ball.speed.y *= -1.04;
+            } else {
+                ball.speed.y *= 1.04;
+            }
+        } else {
+            if ball.speed.y > 0.0 {
+                ball.speed.y *= -1.04
+            } else {
+                ball.speed.y *= -1.04;
+            }
+        }
+
+        ball.speed.x *= -1.04;
+    }
+
     let mut current_speed: f32;
 
     let mut points1: u32 = 0;
@@ -84,12 +102,14 @@ fn main() {
 
         ball.position += ball.speed;
 
+        // Player 2 makes a goal
         if ball.position.x <= ball.radius {
             current_speed = 1.0;
             reset_ball(&mut ball, &mut current_speed, &mut rl);
             points2 += 1; // puntos jugador 2
         }
 
+        // Player 1 makes a goal
         if ball.position.x >= SCREEN_WIDTH - ball.radius {
             current_speed = -1.0;
             reset_ball(&mut ball, &mut current_speed, &mut rl);
@@ -101,8 +121,7 @@ fn main() {
                 && ball.position.y >= player1.position.y)
         {
             if hit == 0 {
-                ball.speed.x *= -1.05;
-                ball.speed.y *= 1.05;
+                ball_hit(&mut ball, &player1);
             }
             hit += 1;
         }
@@ -112,8 +131,7 @@ fn main() {
                 && ball.position.y >= player2.position.y)
         {
             if hit == 0 {
-                ball.speed.x *= -1.05;
-                ball.speed.y *= 1.05;
+                ball_hit(&mut ball, &player2);
             }
             hit += 1;
         }
@@ -125,7 +143,7 @@ fn main() {
         if hit != 0 {
             hit += 1;
         }
-        if hit >= 15 {
+        if hit >= 18 {
             hit = 0;
         }
 
