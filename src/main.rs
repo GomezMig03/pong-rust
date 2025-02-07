@@ -10,6 +10,8 @@ struct Player {
     position: Vector2,
     size: Vector2,
     speed: f32,
+    movingup: bool,
+    movingdown: bool,
 }
 
 struct Ball {
@@ -35,6 +37,8 @@ fn main() {
         position: Vector2::new(32.0, 32.0),
         size: Vector2::new(SCREEN_WIDTH / 64.0, SCREEN_HEIGHT / 6.0),
         speed: SCREEN_HEIGHT / 120.0,
+        movingup: false,
+        movingdown: false,
     };
 
     let mut player2 = Player {
@@ -44,6 +48,8 @@ fn main() {
         ),
         size: Vector2::new(SCREEN_WIDTH / 64.0, SCREEN_HEIGHT / 6.0),
         speed: SCREEN_HEIGHT / 120.0,
+        movingup: false,
+        movingdown: false,
     };
 
     fn reset_ball(ball: &mut Ball, current_speed: &mut f32, rl: &mut RaylibHandle) {
@@ -60,20 +66,33 @@ fn main() {
     }
 
     fn ball_hit(ball: &mut Ball, player: &Player) {
-        if ball.position.y > player.position.y + (player.size.y / 2.0) {
-            if ball.speed.y < 0.0 {
+        if player.movingup {
+            if ball.speed.y > 0.0 {
                 ball.speed.y *= -1.04;
             } else {
                 ball.speed.y *= 1.04;
             }
-        } else {
-            if ball.speed.y > 0.0 {
+        } else if player.movingdown {
+            if ball.speed.y < 0.0 {
                 ball.speed.y *= -1.04
             } else {
                 ball.speed.y *= 1.04;
             }
+        } else {
+            if ball.position.y > player.position.y + (player.size.y / 2.0) {
+                if ball.speed.y < 0.0 {
+                    ball.speed.y *= -1.04;
+                } else {
+                    ball.speed.y *= 1.04;
+                }
+            } else {
+                if ball.speed.y > 0.0 {
+                    ball.speed.y *= -1.04
+                } else {
+                    ball.speed.y *= 1.04;
+                }
+            }
         }
-
         ball.speed.x *= -1.04;
     }
 
@@ -85,18 +104,31 @@ fn main() {
     let mut hit: u32 = 0;
 
     while !rl.window_should_close() {
+        player1.movingup = false;
+        player1.movingdown = false;
+        player2.movingup = false;
+        player2.movingdown = false;
+
         // UPDATE
         if rl.is_key_down(KEY_W) && player1.position.y > UP_LIMIT {
-            player1.position.y -= player1.speed;
+            player1.movingup = true;
+            player1.speed *= -1.0;
+            player1.position.y += player1.speed;
+            player1.speed *= -1.0;
         }
         if rl.is_key_down(KEY_S) && player1.position.y < DOWN_LIMIT {
+            player1.movingdown = true;
             player1.position.y += player1.speed;
         }
 
         if rl.is_key_down(KEY_UP) && player2.position.y > UP_LIMIT {
-            player2.position.y -= player2.speed;
+            player2.movingup = true;
+            player2.speed *= -1.0;
+            player2.position.y += player2.speed;
+            player2.speed *= -1.0;
         }
         if rl.is_key_down(KEY_DOWN) && player2.position.y < DOWN_LIMIT {
+            player2.movingdown = true;
             player2.position.y += player2.speed;
         }
 
@@ -116,6 +148,7 @@ fn main() {
             points1 += 1; // puntos jugador 1
         }
 
+        // Player 1 hits the ball
         if ball.position.x <= player1.position.x + (player1.size.x + ball.radius)
             && (ball.position.y <= player1.position.y + player1.size.y + 4.0
                 && ball.position.y >= player1.position.y)
@@ -126,6 +159,7 @@ fn main() {
             hit += 1;
         }
 
+        // Player 2 hits the ball
         if ball.position.x >= player2.position.x - ball.radius
             && (ball.position.y <= player2.position.y + player2.size.y + 4.0
                 && ball.position.y >= player2.position.y)
@@ -136,18 +170,18 @@ fn main() {
             hit += 1;
         }
 
+        // Ball hits the floor or the ceiling
         if ball.position.y >= SCREEN_HEIGHT - ball.radius || ball.position.y <= ball.radius {
             ball.speed.y *= -1.0;
         }
 
+        // To avoid multiple hits if the same player
         if hit != 0 {
             hit += 1;
         }
         if hit >= 18 {
             hit = 0;
         }
-
-        //println!("Player position Y: {}", player1.position.y);
 
         // DRAW
         let mut d = rl.begin_drawing(&thread);
