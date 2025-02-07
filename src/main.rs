@@ -70,7 +70,7 @@ fn main() {
             if ball.speed.y > 0.0 {
                 ball.speed.y *= -1.04
             } else {
-                ball.speed.y *= -1.04;
+                ball.speed.y *= 1.04;
             }
         }
 
