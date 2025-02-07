@@ -46,7 +46,7 @@ fn main() {
         speed: SCREEN_HEIGHT / 120.0,
     };
 
-    fn reset_ball(ball: &mut Ball, currentSpeed: &mut f32, rl: &mut RaylibHandle) {
+    fn reset_ball(ball: &mut Ball, current_speed: &mut f32, rl: &mut RaylibHandle) {
         let mut yspeed = rl.get_random_value::<i32>(-4..4) as f32;
         if yspeed == 0.0 {
             yspeed = 1.0
@@ -54,12 +54,12 @@ fn main() {
 
         ball.position = Vector2::new(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0);
         ball.speed = Vector2::new(
-            (rl.get_random_value::<i32>(3..5) as f32) * *currentSpeed,
+            (rl.get_random_value::<i32>(3..5) as f32) * *current_speed,
             yspeed,
         );
     }
 
-    let mut current_speed: f32 = 1.0;
+    let mut current_speed: f32;
 
     let mut points1: u32 = 0;
     let mut points2: u32 = 0;
@@ -68,17 +68,17 @@ fn main() {
 
     while !rl.window_should_close() {
         // UPDATE
-        if (rl.is_key_down(KEY_UP) || rl.is_key_down(KEY_W)) && player1.position.y > UP_LIMIT {
+        if rl.is_key_down(KEY_W) && player1.position.y > UP_LIMIT {
             player1.position.y -= player1.speed;
         }
-        if (rl.is_key_down(KEY_DOWN) || rl.is_key_down(KEY_S)) && player1.position.y < DOWN_LIMIT {
+        if rl.is_key_down(KEY_S) && player1.position.y < DOWN_LIMIT {
             player1.position.y += player1.speed;
         }
 
-        if rl.is_key_down(KEY_O) && player2.position.y > UP_LIMIT {
+        if rl.is_key_down(KEY_UP) && player2.position.y > UP_LIMIT {
             player2.position.y -= player2.speed;
         }
-        if rl.is_key_down(KEY_L) && player2.position.y < DOWN_LIMIT {
+        if rl.is_key_down(KEY_DOWN) && player2.position.y < DOWN_LIMIT {
             player2.position.y += player2.speed;
         }
 
