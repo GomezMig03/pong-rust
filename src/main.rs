@@ -5,9 +5,8 @@ mod game;
 mod menu;
 
 fn main() {
-    set_screen(Screen::Game);
+    set_screen(Screen::Menu);
 
-    let close: bool = false;
     while get_screen() != Screen::Close {
         match get_screen() {
             Screen::Menu => menu::menu(),
