@@ -1,4 +1,4 @@
-use pong_rust::{set_screen, Screen, DOWN_LIMIT, SCREEN_HEIGHT, SCREEN_WIDTH, UP_LIMIT};
+use pong_rust::{DOWN_LIMIT, SCREEN_HEIGHT, SCREEN_WIDTH, UP_LIMIT};
 use raylib::consts::KeyboardKey::*;
 use raylib::prelude::*;
 
@@ -203,5 +203,4 @@ pub fn game() {
         d.draw_rectangle_v(player2.position, player2.size, Color::WHITE);
         d.draw_circle_v(ball.position, ball.radius, Color::WHITE);
     }
-    set_screen(Screen::Close);
 }

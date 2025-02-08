@@ -1,4 +1,5 @@
-use std::sync::OnceLock;
+use core::fmt;
+use std::sync::Mutex;
 
 pub const SCREEN_WIDTH: f32 = 1280.0;
 pub const SCREEN_HEIGHT: f32 = 720.0;
@@ -12,12 +13,24 @@ pub enum Screen {
     Close,
 }
 
-pub static CURRENT_SCREEN: OnceLock<Screen> = OnceLock::new();
+static CURRENT_SCREEN: Mutex<Screen> = Mutex::new(Screen::Menu);
 
 pub fn get_screen() -> Screen {
-    *CURRENT_SCREEN.get().unwrap()
+    let screen = CURRENT_SCREEN.lock().unwrap();
+    screen.clone()
 }
 
 pub fn set_screen(screen: Screen) {
-    let _ = CURRENT_SCREEN.set(screen);
+    let mut sc = CURRENT_SCREEN.lock().unwrap();
+    *sc = screen;
+}
+
+impl fmt::Display for Screen {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Screen::Game => write!(f, "Game"),
+            Screen::Menu => write!(f, "Menu"),
+            Screen::Close => write!(f, "Close"),
+        }
+    }
 }

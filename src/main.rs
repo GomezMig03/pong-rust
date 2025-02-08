@@ -5,12 +5,17 @@ mod game;
 mod menu;
 
 fn main() {
-    set_screen(Screen::Menu);
-
     while get_screen() != Screen::Close {
+        println!("{}", get_screen());
         match get_screen() {
-            Screen::Menu => menu::menu(),
-            Screen::Game => game::game(),
+            Screen::Menu => {
+                set_screen(Screen::Close);
+                menu::menu();
+            }
+            Screen::Game => {
+                set_screen(Screen::Close);
+                game::game();
+            }
             _ => process::exit(1),
         }
     }
