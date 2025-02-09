@@ -20,7 +20,7 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
     let mut ball = Ball {
         position: Vector2::new(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0),
         speed: Vector2::new(4.5, 2.5),
-        radius: 20.0,
+        radius: SCREEN_WIDTH / 64.0,
     };
 
     let mut player1 = Player {
@@ -177,7 +177,7 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
         if hit != 0 {
             hit += 1;
         }
-        if hit >= 12 {
+        if hit >= 18 {
             hit = 0;
         }
 
