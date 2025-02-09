@@ -146,6 +146,7 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
 
         // Player 1 hits the ball
         if ball.position.x <= player1.position.x + (player1.size.x + ball.radius)
+            && ball.position.x >= player1.position.x + (ball.radius / 2.0)
             && (ball.position.y <= player1.position.y + player1.size.y + 4.0
                 && ball.position.y >= player1.position.y)
         {
@@ -157,6 +158,7 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
 
         // Player 2 hits the ball
         if ball.position.x >= player2.position.x - ball.radius
+            && ball.position.x <= player2.position.x + (ball.radius / 2.0)
             && (ball.position.y <= player2.position.y + player2.size.y + 4.0
                 && ball.position.y >= player2.position.y)
         {
@@ -175,7 +177,7 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
         if hit != 0 {
             hit += 1;
         }
-        if hit >= 18 {
+        if hit >= 12 {
             hit = 0;
         }
 
