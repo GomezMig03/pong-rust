@@ -1,4 +1,4 @@
-use pong_rust::{DOWN_LIMIT, SCREEN_HEIGHT, SCREEN_WIDTH, UP_LIMIT};
+use pong_rust::{set_screen, Screen, DOWN_LIMIT, SCREEN_HEIGHT, SCREEN_WIDTH, UP_LIMIT};
 use raylib::consts::KeyboardKey::*;
 use raylib::prelude::*;
 
@@ -120,6 +120,12 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
         if rl.is_key_down(KEY_DOWN) && player2.position.y < DOWN_LIMIT {
             player2.movingdown = true;
             player2.position.y += player2.speed;
+        }
+
+        // Esc button go back
+        if rl.is_key_down(KEY_ESCAPE) {
+            set_screen(Screen::Menu);
+            return;
         }
 
         ball.position += ball.speed;

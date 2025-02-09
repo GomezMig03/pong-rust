@@ -10,7 +10,6 @@ pub const DOWN_LIMIT: f32 = SCREEN_HEIGHT - 128.0;
 pub enum Screen {
     Menu,
     Game,
-    Close,
 }
 
 static CURRENT_SCREEN: Mutex<Screen> = Mutex::new(Screen::Menu);
@@ -30,7 +29,6 @@ impl fmt::Display for Screen {
         match self {
             Screen::Game => write!(f, "Game"),
             Screen::Menu => write!(f, "Menu"),
-            Screen::Close => write!(f, "Close"),
         }
     }
 }

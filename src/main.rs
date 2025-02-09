@@ -1,5 +1,4 @@
 use pong_rust::{get_screen, Screen, SCREEN_HEIGHT, SCREEN_WIDTH};
-use std::process;
 
 mod game;
 mod menu;
@@ -11,11 +10,12 @@ fn main() {
         .vsync()
         .build();
 
+    rl.set_exit_key(None);
+
     while !rl.window_should_close() {
         match get_screen() {
             Screen::Menu => menu::menu(&mut rl, &thread),
             Screen::Game => game::game(&mut rl, &thread),
-            _ => process::exit(1),
         }
     }
 }
