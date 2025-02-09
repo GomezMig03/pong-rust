@@ -1,21 +1,20 @@
-use pong_rust::{get_screen, set_screen, Screen};
+use pong_rust::{get_screen, Screen, SCREEN_HEIGHT, SCREEN_WIDTH};
 use std::process;
 
 mod game;
 mod menu;
 
 fn main() {
-    while get_screen() != Screen::Close {
-        println!("{}", get_screen());
+    let (mut rl, thread) = raylib::init()
+        .size(SCREEN_WIDTH as i32, SCREEN_HEIGHT as i32)
+        .title("Pong")
+        .vsync()
+        .build();
+
+    while !rl.window_should_close() {
         match get_screen() {
-            Screen::Menu => {
-                set_screen(Screen::Close);
-                menu::menu();
-            }
-            Screen::Game => {
-                set_screen(Screen::Close);
-                game::game();
-            }
+            Screen::Menu => menu::menu(&mut rl, &thread),
+            Screen::Game => game::game(&mut rl, &thread),
             _ => process::exit(1),
         }
     }

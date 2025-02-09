@@ -16,13 +16,7 @@ struct Ball {
     radius: f32,
 }
 
-pub fn game() {
-    let (mut rl, thread) = raylib::init()
-        .size(SCREEN_WIDTH as i32, SCREEN_HEIGHT as i32)
-        .title("Pong")
-        .vsync()
-        .build();
-
+pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
     let mut ball = Ball {
         position: Vector2::new(SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0),
         speed: Vector2::new(4.5, 2.5),
@@ -48,7 +42,7 @@ pub fn game() {
         movingdown: false,
     };
 
-    fn reset_ball(ball: &mut Ball, current_speed: &mut f32, rl: &mut RaylibHandle) {
+    fn reset_ball(ball: &mut Ball, current_speed: &mut f32, rl: &RaylibHandle) {
         let mut yspeed = rl.get_random_value::<i32>(-4..4) as f32;
         if yspeed == 0.0 {
             yspeed = 1.0
@@ -133,14 +127,14 @@ pub fn game() {
         // Player 2 makes a goal
         if ball.position.x <= ball.radius {
             current_speed = 1.0;
-            reset_ball(&mut ball, &mut current_speed, &mut rl);
+            reset_ball(&mut ball, &mut current_speed, &rl);
             points2 += 1; // puntos jugador 2
         }
 
         // Player 1 makes a goal
         if ball.position.x >= SCREEN_WIDTH - ball.radius {
             current_speed = -1.0;
-            reset_ball(&mut ball, &mut current_speed, &mut rl);
+            reset_ball(&mut ball, &mut current_speed, &rl);
             points1 += 1; // puntos jugador 1
         }
 

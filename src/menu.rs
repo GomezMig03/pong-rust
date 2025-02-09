@@ -2,13 +2,7 @@ use pong_rust::{set_screen, Screen, SCREEN_HEIGHT, SCREEN_WIDTH};
 use raylib::ffi::Rectangle;
 use raylib::prelude::*;
 
-pub fn menu() {
-    let (mut rl, thread) = raylib::init()
-        .size(SCREEN_WIDTH as i32, SCREEN_HEIGHT as i32)
-        .title("Pong in rust")
-        .vsync()
-        .build();
-
+pub fn menu(rl: &mut RaylibHandle, thread: &RaylibThread) {
     let buttonx: f32 = (SCREEN_WIDTH / 2.0) - (SCREEN_WIDTH / 8.0);
     let buttony: f32 = SCREEN_HEIGHT / 2.0;
     let buttonw: f32 = SCREEN_WIDTH / 4.0;
