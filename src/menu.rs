@@ -1,4 +1,4 @@
-use pong_rust::{SCREEN_HEIGHT, SCREEN_WIDTH};
+use pong_rust::{set_screen, Screen, SCREEN_HEIGHT, SCREEN_WIDTH};
 use raylib::ffi::Rectangle;
 use raylib::prelude::*;
 
@@ -55,6 +55,12 @@ pub fn menu() {
         let currenty = rl.get_mouse_y();
 
         // UPDATE
+        if rl.is_mouse_button_down(MouseButton::MOUSE_BUTTON_LEFT) {
+            if is_touching(&currentx, &currenty, &buttonx, &buttony, &buttonh, &buttonw) {
+                set_screen(Screen::Game);
+                return;
+            }
+        }
         if is_touching(&currentx, &currenty, &buttonx, &buttony, &buttonh, &buttonw) {
             local_button.width = buttonw + 12.0;
             local_button.height = buttonh + 4.0;
