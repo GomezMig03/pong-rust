@@ -1,4 +1,6 @@
-use pong_rust::{set_screen, Screen, DOWN_LIMIT, SCREEN_HEIGHT, SCREEN_WIDTH, UP_LIMIT};
+use pong_rust::{
+    set_screen, Screen, DOWN_LIMIT, SCREEN_HEIGHT, SCREEN_WIDTH, TARGET_FPS, UP_LIMIT,
+};
 use raylib::consts::KeyboardKey::*;
 use raylib::prelude::*;
 
@@ -92,6 +94,8 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
     let mut points2: u32 = 0;
 
     let mut hit: u32 = 0;
+
+    rl.set_target_fps(TARGET_FPS);
 
     while !rl.window_should_close() {
         player1.movingup = false;
