@@ -20,6 +20,7 @@ pub fn menu(rl: &mut RaylibHandle, thread: &RaylibThread) {
         height: buttonh,
     };
 
+    /// Gives a button the given coordinates and size
     fn reset_button(
         button: &mut Rectangle,
         buttonx: &f32,
@@ -33,6 +34,7 @@ pub fn menu(rl: &mut RaylibHandle, thread: &RaylibThread) {
         button.width = *buttonw;
     }
 
+    /// Detects if the cursor (currentx and currenty) is inside given coordinates (button values)
     fn is_touching(
         currentx: &i32,
         currenty: &i32,

@@ -44,6 +44,8 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
         movingdown: false,
     };
 
+    /// Is suposed to be called when a goal is made
+    /// Recalculates the position and movement of the ball
     fn reset_ball(ball: &mut Ball, current_speed: &mut f32, rl: &RaylibHandle) {
         let mut yspeed = rl.get_random_value::<i32>(-4..4) as f32;
         if yspeed == 0.0 {
@@ -57,6 +59,7 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
         );
     }
 
+    /// Calculates how the ball was hit to determine the angle the ball is going to move to
     fn ball_hit(ball: &mut Ball, player: &Player) {
         if player.movingup {
             if ball.speed.y > 0.0 {
@@ -88,6 +91,14 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
         ball.speed.x *= -1.04;
     }
 
+    /// This should be actived every frame to reset the sensors of player movement
+    fn reset_player_mov(player1: &mut Player, player2: &mut Player) {
+        player1.movingup = false;
+        player1.movingdown = false;
+        player2.movingup = false;
+        player2.movingdown = false;
+    }
+
     let mut current_speed: f32;
 
     let mut points1: u32 = 0;
@@ -98,11 +109,7 @@ pub fn game(rl: &mut RaylibHandle, thread: &RaylibThread) {
     rl.set_target_fps(TARGET_FPS);
 
     while !rl.window_should_close() {
-        player1.movingup = false;
-        player1.movingdown = false;
-        player2.movingup = false;
-        player2.movingdown = false;
-
+        reset_player_mov(&mut player1, &mut player2);
         // UPDATE
         if rl.is_key_down(KEY_W) && player1.position.y > UP_LIMIT {
             player1.movingup = true;
