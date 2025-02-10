@@ -1,10 +1,10 @@
 use core::fmt;
 use std::sync::Mutex;
 
-pub const SCREEN_WIDTH: f32 = 1920.0;
-pub const SCREEN_HEIGHT: f32 = 1080.0;
-pub const UP_LIMIT: f32 = 8.0;
-pub const DOWN_LIMIT: f32 = SCREEN_HEIGHT - 128.0;
+pub const SCREEN_WIDTH: f32 = 1280.0;
+pub const SCREEN_HEIGHT: f32 = 720.0;
+pub const UP_LIMIT: f32 = SCREEN_HEIGHT / 160.0;
+pub const DOWN_LIMIT: f32 = SCREEN_HEIGHT - (SCREEN_HEIGHT / 5.6);
 pub const TARGET_FPS: u32 = 60;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
