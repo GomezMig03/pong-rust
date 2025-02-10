@@ -1,12 +1,17 @@
 use pong_rust::{set_screen, Screen, SCREEN_HEIGHT, SCREEN_WIDTH};
+//use raylib::consts::GuiControl::*;
+//use raylib::consts::GuiDefaultProperty::*;
 use raylib::ffi::Rectangle;
 use raylib::prelude::*;
+//use raylib::rstr;
 
 pub fn menu(rl: &mut RaylibHandle, thread: &RaylibThread) {
     let buttonx: f32 = (SCREEN_WIDTH / 2.0) - (SCREEN_WIDTH / 8.0);
     let buttony: f32 = SCREEN_HEIGHT / 2.0;
     let buttonw: f32 = SCREEN_WIDTH / 4.0;
     let buttonh: f32 = SCREEN_HEIGHT / 12.0;
+
+    //let mut font_size: i32 = 24;
 
     let mut local_button = Rectangle {
         x: buttonx,
@@ -60,12 +65,17 @@ pub fn menu(rl: &mut RaylibHandle, thread: &RaylibThread) {
             local_button.height = buttonh + 4.0;
             local_button.y = buttony - 2.0;
             local_button.x = buttonx - 4.0;
+            //font_size = 26;
         } else {
             reset_button(&mut local_button, &buttonx, &buttony, &buttonh, &buttonw);
+            //font_size = 24;
         }
 
         // DRAW
         let mut d = rl.begin_drawing(&thread);
+
+        //d.gui_set_style(DEFAULT, TEXT_SIZE as i32, font_size);
+        //if d.gui_button(local_button, Some(rstr!("Local Multiplayer"))) {}
 
         d.clear_background(Color::BLACK);
 
